@@ -1,0 +1,84 @@
+[package]
+name = "diorama"
+version = "0.1.0-dev"
+edition = "2024"
+license = "MIT-0"
+
+[dependencies]
+avian3d = { version = "0.4.1", default-features = false }
+bevy = { version = "0.17.2", default-features = false, features = [
+  "default_font",
+  "bevy_anti_alias",
+  "bevy_gizmos",
+  "bevy_mesh_picking_backend",
+  "bevy_pbr",
+  "bevy_post_process",
+  "bevy_render",
+  "bevy_shader",
+  "bevy_state",
+  "bevy_ui",
+  "bevy_ui_render",
+  "bevy_window",
+] }
+bevy_framepace = { version = "0.20.0", default-features = false }
+bevy-inspector-egui = { version = "0.35.0", optional = true }
+bevy-tnua = { version = "0.26.0", default-features = false }
+bevy-tnua-avian3d = { version = "0.8.0", default-features = false }
+iyes_perf_ui = { git = "https://github.com/mgi388/iyes_perf_ui", rev = "240b9c31475c9f0ccb0b94d39a7309f9fcc03081", optional = true }
+leafwing-input-manager = { version = "0.19.0", default-features = false, features = [
+  "keyboard",
+] }
+
+[dev-dependencies]
+bevy = { version = "0.17.2", default-features = false, features = [
+  "dynamic_linking",
+  "hdr",
+  "jpeg",
+  "multi_threaded",
+  "smaa_luts",
+  "tonemapping_luts",
+  "wayland",
+  "x11",
+  "zstd_rust",
+] }
+bevy_asset_loader = { version = "0.24.0-rc.1" }
+bevy_yarnspinner = { git = "https://github.com/jameshiew/YarnSpinner-Rust", rev = "ca6a0bbe51ac11dcf6dc6fa51b5504031650ced3", version = "0.6" }
+bevy_yarnspinner_example_dialogue_view = { git = "https://github.com/jameshiew/YarnSpinner-Rust", rev = "ca6a0bbe51ac11dcf6dc6fa51b5504031650ced3", version = "0.6" }
+noise = { version = "0.9.0", features = ["std"] }
+
+[features]
+default = ["avian3d/parry-f32"]
+dev = [
+  "bevy_framepace/framepace_debug",
+  "inspector",
+  "perfui",
+  "physics-debug",
+  "remote"
+]
+f64 = ["avian3d/parry-f64", "bevy-tnua-avian3d/f64", "bevy-tnua/f64"]
+inspector = ["dep:bevy-inspector-egui"]
+perfui = ["bevy/default_font", "dep:iyes_perf_ui"]
+physics-debug = ["avian3d/debug-plugin"]
+remote = ["bevy/bevy_remote"]
+
+# Idiomatic Bevy code often triggers these lints, and the CI workflow treats them as errors.
+# In some cases they may still signal poor code quality however, so consider commenting out these lines.
+[lints.clippy]
+# Bevy supplies arguments to systems via dependency injection, so it's natural for systems to
+# request more than 7 arguments -- which triggers this lint.
+too_many_arguments = "allow"
+# Queries that access many components may trigger this lint.
+type_complexity = "allow"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.dev.package.wgpu-types]
+debug-assertions = false
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

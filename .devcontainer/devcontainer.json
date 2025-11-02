@@ -1,0 +1,29 @@
+{
+  "name": "bevy-sandbox",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/jsburckhardt/devcontainer-features/uv:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["rust-lang.rust-analyzer", "tamasfe.even-better-toml"]
+    },
+    "settings": {
+      "rust-analyzer.cargo.extraArgs": ["--target-dir", "/home/vscode/target"]
+    }
+  },
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+  "containerEnv": {
+    "CARGO_TARGET_DIR": "/home/vscode/target"
+  },
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-target,target=/home/vscode/target,type=volume",
+    "source=${localWorkspaceFolderBasename}-cargo,target=/usr/local/cargo,type=volume"
+  ],
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh",
+  "postStartCommand": "git config --global --add safe.directory /workspaces/bevy-sandbox"
+}
