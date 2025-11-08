@@ -19,6 +19,8 @@ bevy = { version = "0.17.2", default-features = false, features = [
   "bevy_ui",
   "bevy_ui_render",
   "bevy_window",
+  "wayland",
+  "x11",
 ] }
 bevy_framepace = { version = "0.20.0", default-features = false }
 bevy-inspector-egui = { version = "0.35.0", optional = true }
@@ -37,8 +39,6 @@ bevy = { version = "0.17.2", default-features = false, features = [
   "multi_threaded",
   "smaa_luts",
   "tonemapping_luts",
-  "wayland",
-  "x11",
   "zstd_rust",
 ] }
 bevy_asset_loader = { version = "0.24.0-rc.1" }
