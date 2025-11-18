@@ -27,6 +27,10 @@ check:
     cargo check \
         --all-targets
 
+dep-check:
+    cargo machete
+    cargo audit
+
 clippy:
     cargo clippy \
         --all-targets \
