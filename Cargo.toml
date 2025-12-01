@@ -6,7 +6,7 @@ license = "MIT-0"
 
 [dependencies]
 avian3d = { version = "0.4.1", default-features = false }
-bevy = { version = "0.17.2", default-features = false, features = [
+bevy = { version = "0.17.3", default-features = false, features = [
   "default_font",
   "bevy_anti_alias",
   "bevy_gizmos",
@@ -33,7 +33,7 @@ leafwing-input-manager = { version = "0.19.0", default-features = false, feature
 ] }
 
 [dev-dependencies]
-bevy = { version = "0.17.2", default-features = false, features = [
+bevy = { version = "0.17.3", default-features = false, features = [
   "dynamic_linking",
   "hdr",
   "jpeg",
