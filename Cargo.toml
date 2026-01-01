@@ -42,7 +42,7 @@ bevy = { version = "0.17.3", default-features = false, features = [
   "tonemapping_luts",
   "zstd_rust",
 ] }
-bevy_asset_loader = { version = "0.24.0-rc.1" }
+bevy_asset_loader = { version = "0.24.0" }
 bevy_yarnspinner = { git = "https://github.com/YarnSpinnerTool/YarnSpinner-Rust", rev = "ca6a0bbe51ac11dcf6dc6fa51b5504031650ced3", version = "0.6" }
 bevy_yarnspinner_example_dialogue_view = { git = "https://github.com/YarnSpinnerTool/YarnSpinner-Rust", rev = "ca6a0bbe51ac11dcf6dc6fa51b5504031650ced3", version = "0.6" }
 noise = { version = "0.9.0", features = ["std"] }
