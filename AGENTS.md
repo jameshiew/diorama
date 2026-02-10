@@ -29,3 +29,4 @@ Use `just run <example>` instead of `cargo run` when running an example.
   - Ambient lighting as a global resource uses `GlobalAmbientLight` (not `AmbientLight`).
   - `ShaderType` field size attributes use `#[shader(size(...))]` (not `#[size(...)]`).
   - `BorderRadius` is configured on `Node.border_radius` rather than spawned as a standalone component.
+- Cargo example discovery supports directory targets at `examples/<name>/main.rs`, so `just run <name>` works without explicit `[[example]]` entries.

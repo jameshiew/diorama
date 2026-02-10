@@ -29,4 +29,7 @@ just run <example> --features dev
 
 - [simple](examples/simple/) - minimal scene with just a plane and a cube
 - [platformer](examples/platformer/) - 3D platformer
-- [museum](examples/museum/) - generated shaders, complex geometry and dialogue
+- [museum](examples/museum/) - generated shaders, complex geometry and dialogue (mostly Sonnet 4.5)
+- [ocean_depths](examples/ocean_depths/) - by Opus 4.5
+- [alien_planet](examples/alien_planet/) - by Gemini 3 Pro
+- [clockwork_observatory](examples/clockwork_observatory/) - floating observatory with a kinetic orrery and lantern swarms (by GPT-Codex-5.3)
