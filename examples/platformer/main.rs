@@ -73,7 +73,7 @@ impl GameState {
 /// Sets up the game environment with lighting and background color.
 fn setup_environment(mut commands: Commands) {
     // Ambient lighting for overall brightness
-    commands.insert_resource(AmbientLight {
+    commands.insert_resource(GlobalAmbientLight {
         color: tailwind::YELLOW_50.into(),
         brightness: 300.0,
         affects_lightmapped_meshes: true,

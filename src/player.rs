@@ -6,7 +6,10 @@ use bevy::prelude::*;
 use bevy::render::experimental::occlusion_culling::OcclusionCulling;
 use bevy::render::view::Hdr;
 
-use crate::firstsight::{FirstSightPlugin, PlayerControllerBundle};
+use crate::firstsight::{
+    DEFAULT_PLAYER_HEIGHT, DEFAULT_PLAYER_RADIUS, FirstSightPlugin, PlayerControllerBundle,
+    create_player_control_scheme_config,
+};
 
 pub(crate) struct PlayerPlugin;
 
@@ -22,11 +25,16 @@ impl Plugin for PlayerPlugin {
 #[require(Transform)]
 pub struct Player;
 
-fn setup(mut commands: Commands) {
+fn setup(
+    mut commands: Commands,
+    mut control_scheme_configs: ResMut<Assets<crate::firstsight::PlayerControlSchemeConfig>>,
+) {
+    let control_config = create_player_control_scheme_config(&mut control_scheme_configs);
+
     commands.spawn((
         Name::new("Player"),
         Player,
-        PlayerControllerBundle::default(),
+        PlayerControllerBundle::new(DEFAULT_PLAYER_RADIUS, DEFAULT_PLAYER_HEIGHT, control_config),
     ));
 
     commands.spawn((

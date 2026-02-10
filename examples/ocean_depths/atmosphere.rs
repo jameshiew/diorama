@@ -82,7 +82,7 @@ fn setup_atmosphere(
     commands.insert_resource(ClearColor(Color::srgb(0.02, 0.15, 0.3)));
 
     // Ambient underwater light - bright enough to see the ocean floor
-    commands.insert_resource(AmbientLight {
+    commands.insert_resource(GlobalAmbientLight {
         color: Color::srgb(0.4, 0.6, 0.8),
         brightness: 800.0,
         affects_lightmapped_meshes: true,

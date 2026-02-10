@@ -32,10 +32,10 @@ fn setup_game_ui(mut commands: Commands) {
             top: Val::Px(12.0),
             right: Val::Px(12.0),
             padding: UiRect::all(Val::Px(12.0)),
+            border_radius: BorderRadius::all(Val::Px(8.0)),
             ..Node::default()
         },
         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
-        BorderRadius::all(Val::Px(8.0)),
         GameInfoDisplay,
     ));
 }

@@ -6,7 +6,7 @@ pub struct AtmospherePlugin;
 impl Plugin for AtmospherePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(Color::srgb(0.05, 0.05, 0.1)))
-            .insert_resource(AmbientLight {
+            .insert_resource(GlobalAmbientLight {
                 color: Color::srgb(0.1, 0.1, 0.2),
                 brightness: 200.0,
                 affects_lightmapped_meshes: false,

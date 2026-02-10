@@ -41,7 +41,7 @@ pub struct CausticsMaterial {
 pub struct CausticsData {
     pub color: Vec4,
     pub speed: f32,
-    #[size(12)]
+    #[shader(size(12))]
     pub _padding: u32,
 }
 
@@ -84,7 +84,7 @@ pub struct TurtleShellData {
     pub accent_color: Vec4,
     pub age: f32,
     pub roughness: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -125,7 +125,7 @@ pub struct MossyRockData {
     pub moss_color: Vec4,
     pub moss_amount: f32,
     pub wetness: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -166,7 +166,7 @@ pub struct FishScalesData {
     pub iridescence_color: Vec4,
     pub scale_size: f32,
     pub shimmer_speed: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -207,7 +207,7 @@ pub struct JellyfishData {
     pub glow_color: Vec4,
     pub pulse_speed: f32,
     pub translucency: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -252,7 +252,7 @@ pub struct CoralData {
     pub tip_color: Vec4,
     pub glow_intensity: f32,
     pub polyp_density: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -293,7 +293,7 @@ pub struct TreasureChestData {
     pub glow_color: Vec4,
     pub weathering: f32,
     pub magic_intensity: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 

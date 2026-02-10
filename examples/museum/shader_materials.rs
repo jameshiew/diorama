@@ -34,7 +34,7 @@ pub struct HolographicData {
     pub base_color: Vec4,
     pub interference_intensity: f32,
     pub scan_speed: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -61,7 +61,7 @@ pub struct PortalData {
     pub edge_color: Vec4,
     pub rotation_speed: f32,
     pub distortion_strength: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 
@@ -84,7 +84,7 @@ pub struct EnergyFieldData {
     pub arc_intensity: f32,
     pub flow_speed: f32,
     pub noise_scale: f32,
-    #[size(4)]
+    #[shader(size(4))]
     pub _padding: u32,
 }
 
@@ -111,7 +111,7 @@ pub struct LiquidMetalData {
     pub ripple_speed: f32,
     pub ripple_frequency: f32,
     pub metallic_strength: f32,
-    #[size(4)]
+    #[shader(size(4))]
     pub _padding: u32,
 }
 
@@ -134,7 +134,7 @@ pub struct ConstellationData {
     pub nebula_color: Vec4,
     pub twinkle_speed: f32,
     pub star_density: f32,
-    #[size(8)]
+    #[shader(size(8))]
     pub _padding: u32,
 }
 

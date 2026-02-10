@@ -7,6 +7,7 @@
 use avian3d::prelude::*;
 use bevy::input::mouse::AccumulatedMouseMotion;
 use bevy::prelude::*;
+use bevy_tnua::builtins::{TnuaBuiltinJumpConfig, TnuaBuiltinWalkConfig};
 use bevy_tnua::prelude::*;
 use bevy_tnua_avian3d::*;
 
@@ -15,7 +16,7 @@ pub struct FirstSightPlugin;
 impl Plugin for FirstSightPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins((
-            TnuaControllerPlugin::new(FixedUpdate),
+            TnuaControllerPlugin::<PlayerControlScheme>::new(FixedUpdate),
             TnuaAvian3dPlugin::new(FixedUpdate),
         ))
         .add_systems(Update, handle_movement.in_set(TnuaUserControlsSystems))
@@ -33,6 +34,28 @@ const LOOK_SENSITIVITY: f32 = 0.002;
 const JUMP_HEIGHT: f32 = 4.;
 const SPEED: f32 = 10.;
 const SPRINT_MULTIPLIER: f32 = 1.5;
+
+#[derive(TnuaScheme)]
+#[scheme(basis = TnuaBuiltinWalk)]
+pub enum PlayerControlScheme {
+    Jump(TnuaBuiltinJump),
+}
+
+pub fn create_player_control_scheme_config(
+    control_scheme_configs: &mut Assets<PlayerControlSchemeConfig>,
+) -> Handle<PlayerControlSchemeConfig> {
+    control_scheme_configs.add(PlayerControlSchemeConfig {
+        basis: TnuaBuiltinWalkConfig {
+            speed: 1.0,
+            float_height: DEFAULT_PLAYER_HEIGHT + 0.5,
+            ..Default::default()
+        },
+        jump: TnuaBuiltinJumpConfig {
+            height: JUMP_HEIGHT,
+            ..Default::default()
+        },
+    })
+}
 
 /// Camera component for first-person player view.
 ///
@@ -65,7 +88,7 @@ impl Default for PlayerCameraHeight {
 #[derive(Component, Default)]
 #[require(
     Transform,
-    TnuaController,
+    TnuaController::<PlayerControlScheme>,
     RigidBody::Dynamic,
     LockedAxes::ROTATION_LOCKED
 )]
@@ -79,23 +102,23 @@ pub struct PlayerControllerBundle {
     player: PlayerController,
     collider: Collider,
     sensor_shape: TnuaAvian3dSensorShape,
+    control_config: TnuaConfig<PlayerControlScheme>,
     player_camera_height: PlayerCameraHeight,
 }
 
 impl PlayerControllerBundle {
-    pub fn new(radius: f32, height: f32) -> Self {
+    pub fn new(
+        radius: f32,
+        height: f32,
+        control_config: Handle<PlayerControlSchemeConfig>,
+    ) -> Self {
         Self {
             player: PlayerController,
             collider: Collider::capsule(radius.into(), height.into()),
             sensor_shape: TnuaAvian3dSensorShape(Collider::cylinder((radius - 0.01).into(), 0.)),
+            control_config: TnuaConfig(control_config),
             player_camera_height: PlayerCameraHeight(height),
         }
-    }
-}
-
-impl Default for PlayerControllerBundle {
-    fn default() -> Self {
-        Self::new(DEFAULT_PLAYER_RADIUS, DEFAULT_PLAYER_HEIGHT)
     }
 }
 
@@ -114,13 +137,10 @@ pub struct MovementDisabled;
 /// Handles player movement input (WASD) and applies physics-based movement.
 fn handle_movement(
     keyboard: Res<ButtonInput<KeyCode>>,
-    player_controller: Single<
-        (&mut TnuaController, &PlayerCameraHeight),
-        Without<MovementDisabled>,
-    >,
+    player_controller: Single<&mut TnuaController<PlayerControlScheme>, Without<MovementDisabled>>,
     player_camera: Single<&Transform, With<PlayerCamera>>,
 ) {
-    let (mut controller, PlayerCameraHeight(player_camera_height)) = player_controller.into_inner();
+    let mut controller = player_controller.into_inner();
 
     let forward = player_camera.forward();
     let right = player_camera.right();
@@ -151,17 +171,15 @@ fn handle_movement(
         SPEED
     };
 
-    controller.basis(TnuaBuiltinWalk {
-        desired_velocity: (facing.normalize_or_zero() * speed).into(),
-        float_height: (player_camera_height + 0.5).into(),
-        ..default()
-    });
+    controller.basis = TnuaBuiltinWalk {
+        desired_motion: (facing.normalize_or_zero() * speed).into(),
+        desired_forward: None,
+    };
+
+    controller.initiate_action_feeding();
 
     if keyboard.pressed(KeyCode::Space) {
-        controller.action(TnuaBuiltinJump {
-            height: JUMP_HEIGHT.into(),
-            ..default()
-        });
+        controller.action(PlayerControlScheme::Jump(TnuaBuiltinJump::default()));
     }
 }
 

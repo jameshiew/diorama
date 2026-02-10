@@ -31,7 +31,7 @@ pub fn setup(
     mut images: ResMut<Assets<Image>>,
 ) {
     // Configure ambient lighting and background
-    commands.insert_resource(AmbientLight {
+    commands.insert_resource(GlobalAmbientLight {
         color: Color::WHITE,
         brightness: AMBIENT_LIGHT_BRIGHTNESS,
         affects_lightmapped_meshes: true,

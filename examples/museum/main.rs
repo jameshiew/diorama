@@ -159,7 +159,7 @@ pub fn spawn_player(mut player: Single<&mut Transform, With<Player>>) {
 
 fn setup_room_lighting(commands: &mut Commands) {
     // Main ambient lighting - bright warm museum lighting for excellent visibility
-    commands.insert_resource(AmbientLight {
+    commands.insert_resource(GlobalAmbientLight {
         color: Color::srgb(0.95, 0.95, 0.9),
         brightness: 1000.0, // Increased from 800.0 for even brighter ambient lighting
         ..default()
