@@ -30,3 +30,4 @@ Use `just run <example>` instead of `cargo run` when running an example.
   - `ShaderType` field size attributes use `#[shader(size(...))]` (not `#[size(...)]`).
   - `BorderRadius` is configured on `Node.border_radius` rather than spawned as a standalone component.
 - Cargo example discovery supports directory targets at `examples/<name>/main.rs`, so `just run <name>` works without explicit `[[example]]` entries.
+- For large translucent custom-material set pieces that need to read well from both sides, using very thin `Cuboid` meshes is simpler than `Plane3d` because it avoids extra pipeline work for culling.
