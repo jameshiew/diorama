@@ -25,7 +25,7 @@ bevy = { version = "0.18", default-features = false, features = [
 ] }
 bevy_framepace = { version = "0.21", default-features = false }
 bevy-inspector-egui = { version = "0.36", optional = true }
-bevy-tnua = { version = "0.30", default-features = false }
+bevy-tnua = { version = "0.31", default-features = false }
 bevy-tnua-avian3d = { version = "0.10", default-features = false }
 iyes_perf_ui = { git = "https://github.com/blip-radar/iyes_perf_ui", rev = "1861c5c5b2ed5ed3c668095b1a0c4b0d14216fd6", optional = true }
 leafwing-input-manager = { version = "0.20", default-features = false, features = [

@@ -368,6 +368,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "atterate"
+version = "0.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "818180a30c6a052a079dd5619ddf04ea6ef9f773c7d57f0ba8f6fde7c181e0f6"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -479,9 +490,9 @@ dependencies = [
 
 [[package]]
 name = "bevy-tnua"
-version = "0.30.0"
+version = "0.31.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fae9541f18c04b2205ccb56b3dc6eace3d23f448b538cfc9beda8604ea7badf"
+checksum = "1b915c6aceaafc533b1a7eaf303ba52ef790755323e58fd3aad5adbf44b62627"
 dependencies = [
  "bevy",
  "bevy-tnua-macros",
@@ -504,11 +515,12 @@ dependencies = [
 
 [[package]]
 name = "bevy-tnua-macros"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2838ba099375659a700a86aa03353d0e5ee5d2bb692d8f893cdd49b20494efde"
+checksum = "37a2016668a85bbf54d28a8e53c8fa951de2f4e05fd8d905516ca06f8d2a2c76"
 dependencies = [
- "convert_case",
+ "atterate",
+ "convert_case 0.11.0",
  "proc-macro2",
  "quote",
  "syn",
@@ -2124,6 +2136,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "convert_case"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "affbf0190ed2caf063e3def54ff444b449371d55c58e513a95ab98eca50adb49"
+dependencies = [
+ "unicode-segmentation",
+]
+
+[[package]]
 name = "core-foundation"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2368,7 +2389,7 @@ version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "799a97264921d8623a957f6c3b9011f3b5492f557bbb7a5a19b7fa6d06ba8dcb"
 dependencies = [
- "convert_case",
+ "convert_case 0.10.0",
  "proc-macro2",
  "quote",
  "rustc_version",
