@@ -34,3 +34,4 @@ just run <example> --features dev
 - [alien_planet](examples/alien_planet/) - by Gemini 3 Pro
 - [clockwork_observatory](examples/clockwork_observatory/) - floating observatory with a kinetic orrery and lantern swarms (by GPT-Codex-5.3)
 - [aurora_forge](examples/aurora_forge/) - volcanic sky-forge with procedural terrain, plasma shaders, aurora sails, and drifting shard halos (by GPT-5.4)
+- [mycelial_reverie](examples/mycelial_reverie/) - bioluminescent mushroom grove at twilight with a rippling spore pool, firefly orbs, and drifting spores (by Opus 4.7)
