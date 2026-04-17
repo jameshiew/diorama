@@ -39,7 +39,7 @@ use bevy::render::render_resource::{
     AsBindGroup, Extent3d, ShaderType, TextureDimension, TextureFormat,
 };
 use bevy::shader::ShaderRef;
-use noise::{Fbm, MultiFractal, NoiseFn, Perlin};
+use examples_common::noise::{Fbm, Perlin};
 
 use crate::shader_materials::{FractalMaterial, create_fractal_material};
 
@@ -532,7 +532,7 @@ fn generate_polished_stone_texture(
     width: u32,
     height: u32,
 ) -> Handle<Image> {
-    let fbm: Fbm<Perlin> = Fbm::new(654).set_octaves(6).set_frequency(1.0);
+    let fbm: Fbm = Fbm::new(654).set_octaves(6).set_frequency(1.0);
     let mut data = Vec::with_capacity((width * height * 4) as usize);
 
     for y in 0..height {
@@ -575,7 +575,7 @@ fn generate_stone_normal_map(
     width: u32,
     height: u32,
 ) -> Handle<Image> {
-    let fbm: Fbm<Perlin> = Fbm::new(987).set_octaves(4).set_frequency(2.0);
+    let fbm: Fbm = Fbm::new(987).set_octaves(4).set_frequency(2.0);
     let mut data = Vec::with_capacity((width * height * 4) as usize);
 
     for y in 0..height {

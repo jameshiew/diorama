@@ -1,7 +1,7 @@
 use avian3d::prelude::*;
 use bevy::mesh::{Indices, VertexAttributeValues};
 use bevy::prelude::*;
-use noise::{NoiseFn, Perlin};
+use examples_common::noise::Perlin;
 
 pub struct TerrainPlugin;
 

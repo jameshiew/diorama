@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
-use noise::{NoiseFn, Perlin};
+use examples_common::noise::Perlin;
 
 /// Material properties for the marble floor
 const MARBLE_BASE_COLOR: Color = Color::srgb(0.97, 0.97, 0.97);

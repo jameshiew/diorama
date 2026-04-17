@@ -1,7 +1,7 @@
 use avian3d::prelude::*;
 use bevy::prelude::*;
 use diorama::picking::Hint;
-use noise::{NoiseFn, Perlin};
+use examples_common::noise::Perlin;
 
 use crate::materials::{CrystalMaterial, CrystalMaterialUniform};
 

@@ -1,3 +1,6 @@
+[workspace]
+members = ["crates/examples-common"]
+
 [package]
 name = "diorama"
 version = "0.1.0-dev"
@@ -45,7 +48,7 @@ bevy = { version = "0.18", default-features = false, features = [
 bevy_asset_loader = { version = "0.26" }
 bevy_yarnspinner = { version = "0.8" }
 bevy_yarnspinner_example_dialogue_view = { version = "0.8" }
-noise = { version = "0.9.0", features = ["std"] }
+examples-common = { path = "crates/examples-common" }
 rand = "0.10"
 
 [features]

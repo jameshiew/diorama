@@ -4,7 +4,7 @@ use avian3d::prelude::*;
 use bevy::mesh::{Indices, VertexAttributeValues};
 use bevy::prelude::*;
 use diorama::player::Player;
-use noise::{NoiseFn, Perlin};
+use examples_common::noise::Perlin;
 
 use crate::animation::{HoverMotion, OrbitMotion, PulseLight, RingRotor, SweepSpotlight};
 use crate::materials::{

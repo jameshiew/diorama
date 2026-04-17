@@ -4,7 +4,7 @@
 
 use bevy::prelude::*;
 use bevy_yarnspinner::prelude::*;
-use noise::{NoiseFn, Perlin};
+use examples_common::noise::Perlin;
 
 /// Shared noise seed for consistent terrain across modules
 pub const NOISE_SEED: u32 = 42;

@@ -31,7 +31,7 @@ use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 use bevy_yarnspinner::prelude::*;
 use diorama::picking::Hint;
-use noise::{NoiseFn, Perlin};
+use examples_common::noise::Perlin;
 
 use crate::config::{FrameType, PaintingConfig, PaintingStyle, SculptureConfig, SculptureType};
 use crate::materials::MuseumMaterials;
