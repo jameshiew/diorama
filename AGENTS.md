@@ -31,3 +31,6 @@ Use `just run <example>` instead of `cargo run` when running an example.
   - `BorderRadius` is configured on `Node.border_radius` rather than spawned as a standalone component.
 - Cargo example discovery supports directory targets at `examples/<name>/main.rs`, so `just run <name>` works without explicit `[[example]]` entries.
 - For large translucent custom-material set pieces that need to read well from both sides, using very thin `Cuboid` meshes is simpler than `Plane3d` because it avoids extra pipeline work for culling.
+- Decorative "sun"/"moon"/lamp meshes placed along the directional light's axis must carry `NotShadowCaster` (`bevy::light::NotShadowCaster`), or their shadow eclipses a big disk of the scene — this looks like "random objects render black" far away from the prop itself.
+- The camera now adopts the player's facing direction once at `PostStartup`, so `spawn_player` can aim the opening view with `Transform::looking_at`; scenes are no longer limited to composing their opening shot looking along -Z.
+- `just screenshot-and-exit` sets `DIORAMA_FIXED_LOOK=1`, which disables mouse look and cursor grab for the run — screenshots are deterministic and the run doesn't capture the user's pointer. Don't rely on mouse input in CI-style runs.

@@ -52,6 +52,12 @@ fn setup(
     mut window: Single<&mut Window, With<PrimaryWindow>>,
     mut cursor_options: Single<&mut CursorOptions, With<PrimaryWindow>>,
 ) {
+    // In fixed-look mode (automated screenshot runs) leave the cursor alone
+    // so the run doesn't capture the user's mouse.
+    if std::env::var_os("DIORAMA_FIXED_LOOK").is_some() {
+        return;
+    }
+
     cursor_options.grab_mode = CursorGrabMode::Locked;
     cursor_options.visible = false;
 

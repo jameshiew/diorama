@@ -10,7 +10,7 @@ xvfb-run := if os() == 'linux' {
 }
 
 screenshot-and-exit scene:
-    BEVY_ASSET_ROOT=examples/{{scene}} {{xvfb-run}} cargo run \
+    BEVY_ASSET_ROOT=examples/{{scene}} DIORAMA_FIXED_LOOK=1 {{xvfb-run}} cargo run \
         --features bevy/bevy_ci_testing,bevy/png \
         --example {{scene}}
 

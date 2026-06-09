@@ -35,3 +35,4 @@ just run <example> --features dev
 - [clockwork_observatory](examples/clockwork_observatory/) - floating observatory with a kinetic orrery and lantern swarms (by GPT-Codex-5.3)
 - [aurora_forge](examples/aurora_forge/) - volcanic sky-forge with procedural terrain, plasma shaders, aurora sails, and drifting shard halos (by GPT-5.4)
 - [mycelial_reverie](examples/mycelial_reverie/) - bioluminescent mushroom grove at twilight with a rippling spore pool, firefly orbs, and drifting spores (by Opus 4.7)
+- [unwritten_fable](examples/unwritten_fable/) - a colossal storybook caught mid-write: an ink river and inkfall, a papercraft pop-up world, a tireless quill streaming glyphs, and a shimmering frontier where the page is still blank (by Fable 5)

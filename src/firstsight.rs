@@ -15,15 +15,18 @@ pub struct FirstSightPlugin;
 
 impl Plugin for FirstSightPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins((
-            TnuaControllerPlugin::<PlayerControlScheme>::new(FixedUpdate),
-            TnuaAvian3dPlugin::new(FixedUpdate),
-        ))
-        .add_systems(Update, handle_movement.in_set(TnuaUserControlsSystems))
-        .add_systems(
-            PostUpdate,
-            (update_camera_position, update_camera_looking_at).before(TransformSystems::Propagate),
-        );
+        app.insert_resource(FixedLook(std::env::var_os("DIORAMA_FIXED_LOOK").is_some()))
+            .add_plugins((
+                TnuaControllerPlugin::<PlayerControlScheme>::new(FixedUpdate),
+                TnuaAvian3dPlugin::new(FixedUpdate),
+            ))
+            .add_systems(Update, handle_movement.in_set(TnuaUserControlsSystems))
+            .add_systems(PostStartup, sync_initial_look)
+            .add_systems(
+                PostUpdate,
+                (update_camera_position, update_camera_looking_at)
+                    .before(TransformSystems::Propagate),
+            );
     }
 }
 
@@ -128,6 +131,15 @@ impl PlayerControllerBundle {
 #[derive(Component, Default)]
 pub struct LookDisabled;
 
+/// When true, mouse look is ignored for the whole session, keeping the
+/// camera fixed on the player's initial facing direction.
+///
+/// Set via the `DIORAMA_FIXED_LOOK` environment variable; used by
+/// `just screenshot-and-exit` so screenshots are deterministic even if the
+/// mouse moves while the window briefly has cursor grab.
+#[derive(Resource)]
+struct FixedLook(bool);
+
 /// Marker component to disable player movement controls.
 ///
 /// When attached to the player controller entity, WASD movement will be disabled.
@@ -183,6 +195,23 @@ fn handle_movement(
     }
 }
 
+/// Aligns the camera with the player's initial facing direction.
+///
+/// Runs once after startup so that scenes can aim the opening view by
+/// rotating the player entity when they reposition it (e.g. with
+/// `Transform::looking_at`). Mouse look takes over from there.
+fn sync_initial_look(
+    player: Single<&Transform, (With<PlayerController>, Without<PlayerCamera>)>,
+    camera: Single<(&mut Transform, &mut PlayerCamera)>,
+) {
+    let (mut camera_transform, mut player_camera) = camera.into_inner();
+    let forward = player.forward();
+    player_camera.yaw = (-forward.x).atan2(-forward.z);
+    player_camera.pitch = f32::from(forward.y).asin().clamp(-1.5, 1.5);
+    camera_transform.rotation =
+        Quat::from_rotation_y(player_camera.yaw) * Quat::from_rotation_x(player_camera.pitch);
+}
+
 /// Updates the camera position to follow the player controller.
 fn update_camera_position(
     mut player_camera: Single<&mut Transform, With<PlayerCamera>>,
@@ -197,12 +226,21 @@ fn update_camera_position(
 /// Handles mouse look input and rotates the camera.
 fn update_camera_looking_at(
     mouse_motion: Res<AccumulatedMouseMotion>,
+    fixed_look: Res<FixedLook>,
     camera: Single<(&mut Transform, &mut PlayerCamera), Without<LookDisabled>>,
+    mut warmup_frames: Local<u32>,
 ) {
     let (mut camera_transform, mut player_camera) = camera.into_inner();
 
-    player_camera.yaw -= mouse_motion.delta.x * LOOK_SENSITIVITY;
-    player_camera.pitch -= mouse_motion.delta.y * LOOK_SENSITIVITY;
+    // Ignore mouse motion for the first few frames: grabbing and centering
+    // the cursor at startup can report a large spurious delta that would
+    // otherwise throw the initial view.
+    if *warmup_frames < 10 {
+        *warmup_frames = warmup_frames.saturating_add(1);
+    } else if !fixed_look.0 {
+        player_camera.yaw -= mouse_motion.delta.x * LOOK_SENSITIVITY;
+        player_camera.pitch -= mouse_motion.delta.y * LOOK_SENSITIVITY;
+    }
 
     // Clamp pitch to prevent looking too far up or down
     player_camera.pitch = player_camera.pitch.clamp(-1.5, 1.5);
