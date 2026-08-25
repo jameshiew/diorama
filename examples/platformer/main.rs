@@ -87,7 +87,7 @@ fn setup_environment(mut commands: Commands) {
         Name::new("Sun"),
         DirectionalLight {
             color: tailwind::YELLOW_200.into(),
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             illuminance: 10000.0,
             ..default()
         },

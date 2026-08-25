@@ -98,7 +98,7 @@ fn spawn_lighting(commands: &mut Commands) {
         Name::new("Celestial Directional Light"),
         DirectionalLight {
             illuminance: 8000.0,
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             color: Color::srgb(0.8, 0.86, 1.0),
             ..default()
         },
@@ -121,7 +121,7 @@ fn spawn_lighting(commands: &mut Commands) {
                 intensity: 3200.0,
                 range: 35.0,
                 radius: 0.8,
-                shadows_enabled: index == 0,
+                shadow_maps_enabled: index == 0,
                 ..default()
             },
             Transform::from_translation(position),
@@ -253,7 +253,7 @@ fn spawn_orrery(
             intensity: 4500.0,
             range: 20.0,
             radius: 1.0,
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         PulsingLight {
@@ -308,7 +308,7 @@ fn spawn_orrery(
                 intensity: 1700.0,
                 range: 10.0,
                 radius: 0.4,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             PulsingLight {
@@ -353,7 +353,7 @@ fn spawn_lantern_swarm(
                 intensity: 520.0,
                 range: 7.5,
                 radius: 0.25,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             PulsingLight {

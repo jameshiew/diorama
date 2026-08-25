@@ -21,7 +21,7 @@ fn setup_lights(mut commands: Commands) {
     commands.spawn((
         DirectionalLight {
             illuminance: 5000.0,
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             color: Color::srgb(1.0, 0.9, 0.8),
             ..default()
         },

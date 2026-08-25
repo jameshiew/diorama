@@ -48,7 +48,7 @@ pub fn setup(
             (
                 Name::new("Point light"),
                 PointLight {
-                    shadows_enabled: true,
+                    shadow_maps_enabled: true,
                     ..default()
                 },
                 Transform::from_translation(POINT_LIGHT_POSITION),

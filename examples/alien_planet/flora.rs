@@ -122,7 +122,7 @@ fn on_spire_click(
     mut materials: ResMut<Assets<CrystalMaterial>>,
     query: Query<&MeshMaterial3d<CrystalMaterial>>,
 ) {
-    if let Some(material) = query
+    if let Some(mut material) = query
         .get(click.entity)
         .ok()
         .and_then(|h| materials.get_mut(h))

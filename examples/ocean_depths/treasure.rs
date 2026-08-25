@@ -152,7 +152,7 @@ fn spawn_treasure(
             color: Color::srgb(1.0, 0.85, 0.4),
             intensity: 30000.0,
             radius: 15.0,
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_translation(chest_pos + Vec3::Y * 2.0),

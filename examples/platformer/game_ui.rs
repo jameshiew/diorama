@@ -23,7 +23,7 @@ fn setup_game_ui(mut commands: Commands) {
     commands.spawn((
         Text::new("> Gems: 0"),
         TextFont {
-            font_size: 16.0,
+            font_size: FontSize::Px(16.0),
             ..default()
         },
         TextColor::WHITE,

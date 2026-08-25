@@ -313,7 +313,7 @@ fn spawn_ancient_coral(
             color: Color::srgb(0.3, 0.8, 1.0),
             intensity: 15000.0,
             radius: 12.0,
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_translation(base_pos + Vec3::Y * 2.0),

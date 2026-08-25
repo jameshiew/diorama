@@ -1,10 +1,10 @@
 use bevy::anti_alias::contrast_adaptive_sharpening::ContrastAdaptiveSharpening;
 use bevy::anti_alias::taa::TemporalAntiAliasing;
+use bevy::camera::Hdr;
 use bevy::core_pipeline::prepass::DepthPrepass;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::prelude::*;
-use bevy::render::experimental::occlusion_culling::OcclusionCulling;
-use bevy::render::view::Hdr;
+use bevy::render::occlusion_culling::OcclusionCulling;
 
 use crate::firstsight::{
     DEFAULT_PLAYER_HEIGHT, DEFAULT_PLAYER_RADIUS, FirstSightPlugin, PlayerControllerBundle,

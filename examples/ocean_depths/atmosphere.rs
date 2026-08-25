@@ -94,7 +94,7 @@ fn setup_atmosphere(
         DirectionalLight {
             color: Color::srgb(0.6, 0.85, 1.0),
             illuminance: 25000.0,
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_rotation(Quat::from_euler(EulerRot::XYZ, -0.8, 0.3, 0.0)),
@@ -118,7 +118,7 @@ fn setup_atmosphere(
                 color: Color::srgb(0.5, 0.8, 1.0),
                 intensity: 50000.0,
                 radius: 30.0,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             Transform::from_translation(*pos),

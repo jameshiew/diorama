@@ -199,7 +199,7 @@ fn spawn_lighting(commands: &mut Commands) {
         DirectionalLight {
             illuminance: 8_000.0,
             color: Color::srgb(0.72, 0.82, 1.0),
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_xyz(-60.0, 90.0, 20.0).looking_at(Vec3::ZERO, Vec3::Y),
@@ -227,7 +227,7 @@ fn spawn_lighting(commands: &mut Commands) {
                 range: 110.0,
                 radius: 0.45,
                 color: Color::srgb(0.6, 0.9, 1.0),
-                shadows_enabled: true,
+                shadow_maps_enabled: true,
                 inner_angle: PI / 11.0,
                 outer_angle: PI / 7.0,
                 ..default()
@@ -418,7 +418,7 @@ fn spawn_main_deck(
                 intensity: 3_400.0,
                 range: 24.0,
                 radius: 0.65,
-                shadows_enabled: index % 3 == 0,
+                shadow_maps_enabled: index % 3 == 0,
                 ..default()
             },
             Transform::from_translation(outcrop_center + Vec3::new(0.0, 3.4, 0.0)),
@@ -487,7 +487,7 @@ fn spawn_outer_crown(
                 intensity: 4_800.0,
                 range: 34.0,
                 radius: 0.9,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             Transform::from_xyz(x, base_y + monolith_height + 2.8, z),
@@ -598,7 +598,7 @@ fn spawn_central_forge(
             intensity: 9_500.0,
             range: 42.0,
             radius: 1.5,
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_translation(FORGE_CENTER),
@@ -773,7 +773,7 @@ fn spawn_ember_swarm(
                 intensity: 1_600.0,
                 range: 16.0,
                 radius: 0.45,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             Transform::from_xyz(0.0, FORGE_CENTER.y + height, 0.0),

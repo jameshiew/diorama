@@ -25,6 +25,13 @@ Use `just run <example>` instead of `cargo run` when running an example.
 
 ## Learnings
 
+- Bevy `0.19` migration notes:
+  - Light shadow-map control uses `shadow_maps_enabled` (not `shadows_enabled`).
+  - `TextFont.font_size` uses a `FontSize` value, such as `FontSize::Px(20.0)`.
+  - `Hdr` is in `bevy::camera`, and `OcclusionCulling` is in `bevy::render::occlusion_culling`.
+  - Physics gizmos need the `bevy_gizmos_render` feature in addition to `bevy_gizmos`.
+  - The world inspector needs `GizmoConfigStore` registered before `WorldInspectorPlugin` starts.
+  - Bevy's `FpsOverlayPlugin` provides a small FPS and frame-time view without a separate performance UI dependency.
 - Bevy `0.18` migration notes:
   - Ambient lighting as a global resource uses `GlobalAmbientLight` (not `AmbientLight`).
   - `ShaderType` field size attributes use `#[shader(size(...))]` (not `#[size(...)]`).

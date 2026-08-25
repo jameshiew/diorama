@@ -329,7 +329,7 @@ fn spawn_lighting(commands: &mut Commands) {
         DirectionalLight {
             illuminance: 5_200.0,
             color: Color::srgb(1.0, 0.92, 0.78),
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_xyz(-60.0, 110.0, 120.0).looking_at(Vec3::ZERO, Vec3::Y),
@@ -344,7 +344,7 @@ fn spawn_lighting(commands: &mut Commands) {
                 range: 24.0,
                 radius: 0.4,
                 color: Color::srgb(1.0, 0.82, 0.4),
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             Transform::from_xyz(FRONTIER_X, 3.5, z),
@@ -365,7 +365,7 @@ fn spawn_lighting(commands: &mut Commands) {
             range: 16.0,
             radius: 0.6,
             color: Color::srgb(0.9, 0.75, 0.4),
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_xyz(0.0, DESK_TOP_Y + 2.5, 34.0),
@@ -440,7 +440,7 @@ fn spawn_desk(commands: &mut Commands, meshes: &mut Assets<Mesh>, palette: &Pale
             range: 18.0,
             radius: 0.5,
             color: Color::srgb(0.45, 0.55, 1.0),
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_xyz(well.x, DESK_TOP_Y + 16.0, well.z),
@@ -708,7 +708,7 @@ fn spawn_quill(commands: &mut Commands, meshes: &mut Assets<Mesh>, palette: &Pal
                     range: 18.0,
                     radius: 0.3,
                     color: Color::srgb(1.0, 0.9, 0.6),
-                    shadows_enabled: false,
+                    shadow_maps_enabled: false,
                     ..default()
                 },
                 Transform::from_xyz(0.0, -3.0, 1.0),
@@ -814,7 +814,7 @@ fn spawn_cottage(
             range: 18.0,
             radius: 0.3,
             color: Color::srgb(1.0, 0.7, 0.35),
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_xyz(x, ground + 2.6, z + 3.4),

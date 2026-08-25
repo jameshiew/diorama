@@ -16,7 +16,7 @@ A Bevy plugin that provides core functionality like a first person controller an
 | F3+G   | Toggle geometry wireframes | -                 |
 | F3+B   | Toggle collider wireframes | `dev`             |
 | F7     | Toggle world inspector     | `dev`             |
-| F8     | Toggle performance UI      | `dev`             |
+| F8     | Toggle FPS and frame time  | `dev`             |
 
 ## Examples
 

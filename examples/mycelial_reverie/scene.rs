@@ -238,7 +238,7 @@ fn spawn_lighting(commands: &mut Commands) {
         DirectionalLight {
             illuminance: 2_400.0,
             color: Color::srgb(0.68, 0.78, 1.0),
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_xyz(-42.0, 80.0, 28.0).looking_at(Vec3::ZERO, Vec3::Y),
@@ -252,7 +252,7 @@ fn spawn_lighting(commands: &mut Commands) {
             range: 90.0,
             radius: 6.0,
             color: Color::srgb(0.22, 0.68, 0.82),
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_xyz(0.0, 30.0, 0.0),
@@ -266,7 +266,7 @@ fn spawn_lighting(commands: &mut Commands) {
             range: 30.0,
             radius: 1.2,
             color: Color::srgb(0.42, 1.0, 0.78),
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_xyz(0.0, POOL_WATER_Y + 0.4, 0.0),
@@ -467,7 +467,7 @@ fn spawn_giant_mushrooms(
                 intensity: 2_600.0,
                 range: 20.0,
                 radius: 0.8,
-                shadows_enabled: index % 2 == 0,
+                shadow_maps_enabled: index % 2 == 0,
                 ..default()
             },
             Transform::from_xyz(x, cap_y - cap_radius * 0.25, z),
@@ -702,7 +702,7 @@ fn spawn_fireflies(commands: &mut Commands, meshes: &mut Assets<Mesh>, palette: 
                 intensity: 900.0,
                 range: 10.0,
                 radius: 0.3,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             Transform::from_translation(anchor),
@@ -789,7 +789,7 @@ fn spawn_moon_and_stars(commands: &mut Commands, meshes: &mut Assets<Mesh>, pale
             range: 200.0,
             radius: 12.0,
             color: tailwind::VIOLET_400.into(),
-            shadows_enabled: false,
+            shadow_maps_enabled: false,
             ..default()
         },
         Transform::from_xyz(60.0, 6.0, -60.0),

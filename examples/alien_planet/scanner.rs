@@ -36,7 +36,7 @@ fn setup_ui(mut commands: Commands) {
             parent.spawn((
                 Text::new("Scanning..."),
                 TextFont {
-                    font_size: 20.0,
+                    font_size: FontSize::Px(20.0),
                     ..default()
                 },
                 TextColor(Color::WHITE),

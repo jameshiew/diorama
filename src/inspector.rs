@@ -14,6 +14,7 @@ pub enum InspectorState {
 
 impl Plugin for InspectorPlugin {
     fn build(&self, app: &mut App) {
+        app.register_type::<bevy::gizmos::config::GizmoConfigStore>();
         if !app.is_plugin_added::<EguiPlugin>() {
             app.add_plugins(EguiPlugin::default());
         }

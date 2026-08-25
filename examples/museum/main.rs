@@ -171,7 +171,7 @@ fn setup_room_lighting(commands: &mut Commands) {
         DirectionalLight {
             color: Color::srgb(1.0, 0.98, 0.95), // Warm white
             illuminance: 8000.0,                 // Soft but present
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             ..default()
         },
         Transform::from_xyz(5.0, CEILING_HEIGHT, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
@@ -195,7 +195,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 24.0,                         // Increased from 22.5 for better coverage
                 radius: 0.6,                         // Scaled from 0.4 (1.5x)
                 color: Color::srgb(1.0, 0.99, 0.95), // Warmer white
-                shadows_enabled: true,
+                shadow_maps_enabled: true,
                 ..default()
             },
             Transform::from_translation(*position),
@@ -223,7 +223,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 20.0,       // Increased from 18.0
                 radius: 0.45,      // Scaled from 0.3 (1.5x)
                 color: Color::srgb(1.0, 0.98, 0.94),
-                shadows_enabled: false, // Disable shadows for fill lighting
+                shadow_maps_enabled: false, // Disable shadows for fill lighting
                 ..default()
             },
             Transform::from_translation(*position),
@@ -238,7 +238,7 @@ fn setup_room_lighting(commands: &mut Commands) {
             range: 32.0,       // Increased from 30.0
             radius: 0.225,     // Scaled from 0.15 (1.5x)
             color: Color::srgb(1.0, 1.0, 0.98),
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             inner_angle: std::f32::consts::PI / 8.0,
             outer_angle: std::f32::consts::PI / 6.0,
             ..default()
@@ -262,7 +262,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 22.0,       // Increased from 20.0
                 radius: 0.5,
                 color: Color::srgb(1.0, 0.99, 0.95),
-                shadows_enabled: true,
+                shadow_maps_enabled: true,
                 ..default()
             },
             Transform::from_translation(*position),
@@ -286,7 +286,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 20.0,       // Increased from 18.0
                 radius: 0.5,
                 color: Color::srgb(1.0, 0.98, 0.94),
-                shadows_enabled: true,
+                shadow_maps_enabled: true,
                 ..default()
             },
             Transform::from_translation(*position),
@@ -306,7 +306,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 18.0,
                 radius: 0.5,
                 color: Color::srgb(1.0, 0.99, 0.95),
-                shadows_enabled: true,
+                shadow_maps_enabled: true,
                 ..default()
             },
             Transform::from_translation(*position),
@@ -327,7 +327,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 18.0,
                 radius: 0.4,
                 color: Color::srgb(0.95, 0.90, 1.0), // Slightly cooler, more dramatic
-                shadows_enabled: true,
+                shadow_maps_enabled: true,
                 ..default()
             },
             Transform::from_translation(*position),
@@ -342,7 +342,7 @@ fn setup_room_lighting(commands: &mut Commands) {
             range: 25.0,
             radius: 0.3,
             color: Color::srgb(0.9, 0.85, 1.0), // Cool toned spotlight
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             inner_angle: std::f32::consts::PI / 10.0,
             outer_angle: std::f32::consts::PI / 7.0,
             ..default()
@@ -371,7 +371,7 @@ fn setup_room_lighting(commands: &mut Commands) {
                 range: 15.0,
                 radius: 0.5,
                 color: *color,
-                shadows_enabled: false,
+                shadow_maps_enabled: false,
                 ..default()
             },
             Transform::from_translation(*position),
@@ -427,7 +427,7 @@ fn animate_color_cycling_sculptures(
     time: Res<Time>,
 ) {
     for (material_component, color_cycling) in &mut query {
-        if let Some(material) = materials.get_mut(&material_component.0) {
+        if let Some(mut material) = materials.get_mut(&material_component.0) {
             // Cycle hue smoothly
             let hue = (color_cycling.hue_offset + time.elapsed_secs() * color_cycling.speed * 60.0)
                 % 360.0;
