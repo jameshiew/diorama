@@ -214,13 +214,16 @@ fn sync_initial_look(
 
 /// Updates the camera position to follow the player controller.
 fn update_camera_position(
-    mut player_camera: Single<&mut Transform, With<PlayerCamera>>,
+    player_camera: Single<&mut Transform, With<PlayerCamera>>,
     player_controller: Single<(&Transform, &PlayerCameraHeight), Without<PlayerCamera>>,
 ) {
     let (player_transform, PlayerCameraHeight(player_camera_height)) =
         player_controller.into_inner();
-    player_camera.translation =
-        player_transform.translation + Vec3::new(0.0, *player_camera_height, 0.0);
+    let camera_position = player_transform.translation + Vec3::new(0.0, *player_camera_height, 0.0);
+    player_camera
+        .into_inner()
+        .map_unchanged(|transform| &mut transform.translation)
+        .set_if_neq(camera_position);
 }
 
 /// Handles mouse look input and rotates the camera.
@@ -230,7 +233,7 @@ fn update_camera_looking_at(
     camera: Single<(&mut Transform, &mut PlayerCamera), Without<LookDisabled>>,
     mut warmup_frames: Local<u32>,
 ) {
-    let (mut camera_transform, mut player_camera) = camera.into_inner();
+    let (camera_transform, mut player_camera) = camera.into_inner();
 
     // Ignore mouse motion for the first few frames: grabbing and centering
     // the cursor at startup can report a large spurious delta that would
@@ -238,14 +241,138 @@ fn update_camera_looking_at(
     if *warmup_frames < 10 {
         *warmup_frames = warmup_frames.saturating_add(1);
     } else if !fixed_look.0 {
-        player_camera.yaw -= mouse_motion.delta.x * LOOK_SENSITIVITY;
-        player_camera.pitch -= mouse_motion.delta.y * LOOK_SENSITIVITY;
+        let yaw = player_camera.yaw - mouse_motion.delta.x * LOOK_SENSITIVITY;
+        let pitch =
+            (player_camera.pitch - mouse_motion.delta.y * LOOK_SENSITIVITY).clamp(-1.5, 1.5);
+
+        if yaw != player_camera.yaw || pitch != player_camera.pitch {
+            player_camera.yaw = yaw;
+            player_camera.pitch = pitch;
+        }
     }
 
-    // Clamp pitch to prevent looking too far up or down
-    player_camera.pitch = player_camera.pitch.clamp(-1.5, 1.5);
+    if !camera_transform.is_changed() && !player_camera.is_changed() {
+        return;
+    }
 
-    // Apply rotation
-    camera_transform.rotation =
+    let camera_rotation =
         Quat::from_rotation_y(player_camera.yaw) * Quat::from_rotation_x(player_camera.pitch);
+    camera_transform
+        .map_unchanged(|transform| &mut transform.rotation)
+        .set_if_neq(camera_rotation);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn camera_position_does_not_change_when_player_is_stationary() {
+        let mut world = World::new();
+        world.spawn((Transform::IDENTITY, PlayerCameraHeight::default()));
+        let camera = world
+            .spawn((
+                Transform::from_xyz(0.0, DEFAULT_PLAYER_HEIGHT, 0.0),
+                PlayerCamera::default(),
+            ))
+            .id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_camera_position);
+
+        world.clear_trackers();
+        schedule.run(&mut world);
+
+        let camera_transform = world.entity(camera).get_ref::<Transform>().unwrap();
+        assert!(!camera_transform.is_changed());
+    }
+
+    #[test]
+    fn camera_position_changes_when_player_moves() {
+        let mut world = World::new();
+        world.spawn((
+            Transform::from_xyz(4.0, 2.0, -3.0),
+            PlayerCameraHeight::default(),
+        ));
+        let camera = world
+            .spawn((Transform::IDENTITY, PlayerCamera::default()))
+            .id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_camera_position);
+
+        world.clear_trackers();
+        schedule.run(&mut world);
+
+        let camera_transform = world.entity(camera).get_ref::<Transform>().unwrap();
+        assert!(camera_transform.is_changed());
+        assert_eq!(camera_transform.translation, Vec3::new(4.0, 3.0, -3.0));
+    }
+
+    #[test]
+    fn camera_rotation_does_not_change_without_mouse_motion() {
+        let mut world = World::new();
+        world.insert_resource(AccumulatedMouseMotion::default());
+        world.insert_resource(FixedLook(false));
+        let camera = world
+            .spawn((Transform::IDENTITY, PlayerCamera::default()))
+            .id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_camera_looking_at);
+
+        world.clear_trackers();
+        schedule.run(&mut world);
+
+        let camera_transform = world.entity(camera).get_ref::<Transform>().unwrap();
+        let player_camera = world.entity(camera).get_ref::<PlayerCamera>().unwrap();
+        assert!(!camera_transform.is_changed());
+        assert!(!player_camera.is_changed());
+    }
+
+    #[test]
+    fn camera_rotation_changes_after_mouse_motion() {
+        let mut world = World::new();
+        world.insert_resource(AccumulatedMouseMotion::default());
+        world.insert_resource(FixedLook(false));
+        let camera = world
+            .spawn((Transform::IDENTITY, PlayerCamera::default()))
+            .id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_camera_looking_at);
+
+        for _ in 0..10 {
+            schedule.run(&mut world);
+        }
+        world.clear_trackers();
+        world.resource_mut::<AccumulatedMouseMotion>().delta = Vec2::new(4.0, -2.0);
+        schedule.run(&mut world);
+
+        let camera_transform = world.entity(camera).get_ref::<Transform>().unwrap();
+        let player_camera = world.entity(camera).get_ref::<PlayerCamera>().unwrap();
+        assert!(camera_transform.is_changed());
+        assert!(player_camera.is_changed());
+        assert_ne!(camera_transform.rotation, Quat::IDENTITY);
+    }
+
+    #[test]
+    fn fixed_look_restores_an_external_rotation() {
+        let mut world = World::new();
+        world.insert_resource(AccumulatedMouseMotion::default());
+        world.insert_resource(FixedLook(true));
+        let camera = world
+            .spawn((Transform::IDENTITY, PlayerCamera::default()))
+            .id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_camera_looking_at);
+
+        schedule.run(&mut world);
+        world.clear_trackers();
+        world
+            .entity_mut(camera)
+            .get_mut::<Transform>()
+            .unwrap()
+            .rotation = Quat::from_rotation_y(1.0);
+        schedule.run(&mut world);
+
+        let camera_transform = world.entity(camera).get_ref::<Transform>().unwrap();
+        assert_eq!(camera_transform.rotation, Quat::IDENTITY);
+    }
 }

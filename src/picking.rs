@@ -1,3 +1,5 @@
+use std::fmt::Write;
+
 use bevy::color::palettes::tailwind::{PINK_100, RED_500};
 use bevy::picking::pointer::PointerInteraction;
 use bevy::prelude::*;
@@ -63,37 +65,78 @@ fn update_picking_display(
     names: Query<&Name>,
     hints: Query<&Hint>,
     mut text_query: Query<&mut Text, With<PickingDisplay>>,
+    mut next_text: Local<String>,
 ) {
-    let mut picked_entity_name = None;
+    next_text.clear();
 
-    // Find the nearest picked entity
-    for interaction in pointers.iter() {
-        if let Some((entity, _hit)) = interaction.get_nearest_hit() {
-            if let Ok(name) = names.get(*entity) {
-                let mut txt = name.as_str().to_string();
-                if let Ok(hint) = hints.get(*entity) {
-                    txt.push_str(" - ");
-                    txt.push_str((hint.text).as_str());
-                }
-                picked_entity_name = Some(txt);
-            } else {
-                picked_entity_name = Some("unknown".to_string());
+    if let Some(entity) = pointers
+        .iter()
+        .find_map(|interaction| interaction.get_nearest_hit().map(|(entity, _)| *entity))
+    {
+        if let Ok(name) = names.get(entity) {
+            write!(&mut *next_text, "Looking at: {name}").expect("writing to a String cannot fail");
+            if let Ok(hint) = hints.get(entity) {
+                next_text.push_str(" - ");
+                next_text.push_str(&hint.text);
             }
-            break; // Only show the first/nearest hit
+        } else {
+            next_text.push_str("Looking at: unknown");
         }
+    } else {
+        next_text.push_str("No entity picked");
     }
 
-    // Update the display text
-    if let Ok(mut text) = text_query.single_mut() {
-        match picked_entity_name {
-            Some(name) => text.0 = format!("Looking at: {name}"),
-            None => text.0 = "No entity picked".to_string(),
-        }
+    if let Ok(mut text) = text_query.single_mut()
+        && text.0 != *next_text
+    {
+        std::mem::swap(&mut text.0, &mut next_text);
     }
 }
 
 fn cleanup_picking_ui(mut commands: Commands, query: Query<Entity, With<PickingDisplay>>) {
     for entity in query.iter() {
         commands.entity(entity).despawn();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn picking_display_does_not_change_when_text_is_current() {
+        let mut world = World::new();
+        let display = world
+            .spawn((Text::new("No entity picked"), PickingDisplay))
+            .id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_picking_display);
+
+        world.clear_trackers();
+        schedule.run(&mut world);
+
+        let text = world.entity(display).get_ref::<Text>().unwrap();
+        assert!(!text.is_changed());
+    }
+
+    #[test]
+    fn picking_display_replaces_stale_text_once() {
+        let mut world = World::new();
+        let display = world.spawn((Text::new("stale"), PickingDisplay)).id();
+        let mut schedule = Schedule::default();
+        schedule.add_systems(update_picking_display);
+
+        world.clear_trackers();
+        schedule.run(&mut world);
+
+        let text = world.entity(display).get_ref::<Text>().unwrap();
+        assert!(text.is_changed());
+        assert_eq!(text.0, "No entity picked");
+
+        world.clear_trackers();
+        schedule.run(&mut world);
+
+        let text = world.entity(display).get_ref::<Text>().unwrap();
+        assert!(!text.is_changed());
     }
 }
