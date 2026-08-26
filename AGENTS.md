@@ -42,3 +42,4 @@ Use `just run <example>` instead of `cargo run` when running an example.
 - The camera now adopts the player's facing direction once at `PostStartup`, so `spawn_player` can aim the opening view with `Transform::looking_at`; scenes are no longer limited to composing their opening shot looking along -Z.
 - `just screenshot-and-exit` sets `DIORAMA_FIXED_LOOK=1`, which disables mouse look and cursor grab for the run — screenshots are deterministic and the run doesn't capture the user's pointer. Don't rely on mouse input in CI-style runs.
 - In systems that continuously enforce one `Transform` field, use `Mut::map_unchanged` with `set_if_neq`. An identical direct assignment marks the full component as changed and starts unnecessary propagation.
+- A transform-only parent of visible children must include `Visibility`. Otherwise, Bevy reports B0004 and inherited visibility can be inconsistent.
