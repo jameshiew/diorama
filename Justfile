@@ -1,5 +1,5 @@
 run scene *args:
-    BEVY_ASSET_ROOT=examples/{{scene}} cargo run \
+    BEVY_ASSET_ROOT=examples/{{scene}} cargo run --release \
         {{args}} \
         --example {{scene}}
 
