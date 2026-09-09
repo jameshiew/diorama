@@ -37,3 +37,4 @@ just run <example> --features dev
 - [mycelial_reverie](examples/mycelial_reverie/) - bioluminescent mushroom grove at twilight with a rippling spore pool, firefly orbs, and drifting spores (by Opus 4.7)
 - [unwritten_fable](examples/unwritten_fable/) - a colossal storybook caught mid-write: an ink river and inkfall, a papercraft pop-up world, a tireless quill streaming glyphs, and a shimmering frontier where the page is still blank (by Fable 5)
 - [rain_clock_garden](examples/rain_clock_garden/) - a moonlit water-clock garden with a kinetic clock, suspended rain, reflecting pools, luminous reeds, and waterfalls over the edge (by GPT-5.6-Sol)
+- [tidal_orrery](examples/tidal_orrery/) - moonlit tidal basin with animated water, rotating brass rings, floating lanterns, and a stone causeway (by GPT-6 Astra)
