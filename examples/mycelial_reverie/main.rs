@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! # Mycelial Reverie
 //!
 //! A bioluminescent mushroom grove at twilight with:

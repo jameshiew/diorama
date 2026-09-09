@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 use bevy::prelude::*;
 use diorama::DioramaPlugin;
 

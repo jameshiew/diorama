@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! # Museum Scene
 //!
 //! A fully interactive virtual museum experience featuring:

@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! # Ocean Depths
 //!
 //! An underwater exploration diorama featuring:

@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! # Alien Planet Survey
 //!
 //! A procedural exploration example demonstrating:

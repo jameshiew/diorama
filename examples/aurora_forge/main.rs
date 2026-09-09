@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! # Aurora Forge
 //!
 //! A monumental forge-temple suspended above a volcanic caldera with:

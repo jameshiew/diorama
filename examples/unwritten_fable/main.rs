@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! # The Unwritten Fable
 //!
 //! A fable caught in the act of being written, by Fable 5.
